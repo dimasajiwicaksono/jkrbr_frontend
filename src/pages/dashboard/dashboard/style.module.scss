@@ -1,0 +1,164 @@
+@import 'assets/styles/mixins.scss';
+
+button {
+  border: none;
+}
+
+// CARD WHEN LOAD DATA SUCCESS
+.cardDashboard {
+  padding: rem(15) rem(25);
+  position: relative;
+  animation: fadeIn 0.5s;
+  -webkit-animation: fadeIn 0.5s;
+  -moz-animation: fadeIn 0.5s;
+  -ms-animation: fadeIn 0.5s;
+}
+
+// ICON
+.icon {
+  position: absolute;
+  top: rem(14);
+  right: rem(20);
+  i {
+    font-size: rem(24);
+  }
+}
+
+// CARD FOR LOADING
+.loading {
+  padding: rem(15) rem(25);
+  position: relative;
+  border-left: 4px solid $default !important;
+}
+
+// CARD FOR ERROR
+.error {
+  padding: rem(15) rem(25);
+  position: relative;
+  border-left: 4px solid $danger !important;
+  animation: shake 0.9s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  transform: translate3d(0, 0, 0);
+  .icon {
+    i {
+      color: $danger;
+    }
+  }
+}
+
+// CARD FOR WAITING APPROVE
+.waitingApprove {
+  border-left: 4px solid $success !important;
+  .icon {
+    i {
+      color: $success;
+    }
+  }
+}
+
+// CARD FOR ALERT STOCK
+.alertStock {
+  border-left: 4px solid $danger !important;
+  .icon {
+    i {
+      color: $danger;
+    }
+  }
+}
+
+// TOTAL NUMBER ALERT OR WAITING
+.amount {
+  font-size: rem(24);
+  color: $black;
+  font-weight: bold;
+}
+// TITLE WHEN ERROR
+.titleError {
+  font-size: rem(18);
+  color: $black;
+  font-weight: bold;
+}
+
+// TITLE SUB MODULE
+.info {
+  font-size: rem(14);
+  color: $text-darken-more;
+}
+
+// FOOTER
+.footer {
+  color: $text;
+  padding: rem(10) rem(25);
+  margin: rem(10) rem(-25) rem(-15);
+  font-style: italic;
+  font-size: rem(13);
+  background: $gray-lighten-more-more;
+  border-radius: 0 0 7px 7px;
+  text-align: center;
+  i {
+    color: $text;
+  }
+}
+
+button:focus,
+button:hover {
+  outline: 0 !important;
+  background: $gray-lighten-more;
+  color: $text-darken-more;
+  border-radius: 8;
+}
+
+// ANIMATION FADE IN FOR SUCCESS LOAD DATA IN CARD
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+    -webkit-transform: scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: scale(1);
+  }
+}
+@-moz-keyframes fadeIn {
+  0% {
+    opacity: 0;
+    -moz-transform: scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    -moz-transform: scale(1);
+  }
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+// ANIMATION SHAKE FOR ERROR LOAD DATA IN CARD
+@keyframes shake {
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}

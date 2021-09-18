@@ -1,0 +1,27 @@
+// Import mixins
+@import 'assets/styles/mixins.scss';
+
+/////////////////////////////////////////////////////////////////////////////////////////
+/*  ANT DESIGN LAYOUT */
+
+.ant-layout {
+  min-height: 100vh;
+  background: #fff;
+}
+
+.ant-layout-header {
+  padding: 0;
+}
+
+.ant-layout-footer {
+  padding: 24px 50px;
+  background: transparent;
+}
+
+.ant-collapse {
+  background: transparent;
+}
+
+.ant-layout-sider {
+  transition: all 0.3s;
+}

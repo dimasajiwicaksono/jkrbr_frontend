@@ -1,0 +1,45 @@
+// sideMenu
+.side-menu-custom {
+  padding: 1.92rem 0 1.92rem 2.3rem;
+  background: #fff;
+  min-height: 100%;
+  ul {
+    margin: 0;
+    padding-left: 0;
+    li {
+      list-style: none;
+      a {
+        color: #514d6a !important;
+        &:hover {
+          color: #0190fe !important;
+        }
+      }
+    }
+  }
+}
+
+// Toolbar
+.toolbar {
+  margin: 0 0 16px 0;
+}
+
+.row-selected {
+  background-color: #0190fe !important;
+  color: white !important;
+  td {
+    background-color: #0190fe !important;
+  }
+}
+
+.addon-currency {
+  padding: 6px;
+  border: 1px solid #e2e2e2;
+  border-radius: 4px;
+}
+
+.cursor-disabled:hover {
+  span,
+  span input {
+    cursor: default !important;
+  }
+}

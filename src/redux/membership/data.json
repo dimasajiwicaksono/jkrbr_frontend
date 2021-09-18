@@ -1,0 +1,68 @@
+{
+  "DATA": {
+    "acknowledge":1,
+    "message": "OK",
+    "data": {
+      "parentCode": "085601455686",
+      "parentName": "Dimas Aji Wicaksono",
+      "detail": [
+        {
+          "form": "Kasus Narkoba",
+          "link": "kasus_narkoba"
+        },
+        {
+          "form": "Rehabilitasi",
+          "link": "rehabilitasi"
+        },
+        {
+          "form": "Pengaduan Masyarakat",
+          "link": "pengaduan_masyarakat"
+        },
+        {
+          "form": "Layanan Masyarakat",
+          "link": "layanan_masyarakat"
+        },
+        {
+          "form": "Pemberdayaan",
+          "link": "pemberdayaan"
+        },
+        {
+          "form": "Pencegahan",
+          "link": "pencegahan"
+        },
+        {
+          "form": "Pencegahan",
+          "link": "pencegahan"
+        },
+        {
+          "form": "Pencegahan",
+          "link": "pencegahan"
+        }
+      ]
+    }
+  },
+  "DATA_LAYANAN": {
+    "acknowledge":1,
+    "message": "OK",
+    "data": {
+      "detail": [
+        {
+          "form": "Konsultasi",
+          "link": "konsultasi"
+        },
+        {
+          "form": "Informasi",
+          "link": "informasi"
+        },
+        {
+          "form": "SKPN",
+          "link": "skpn"
+        },
+        {
+          "form": "P2M",
+          "link": "p2m"
+        }
+      ]
+    }
+  }
+}
