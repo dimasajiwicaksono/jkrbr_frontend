@@ -1,13 +1,13 @@
 import endpoint from './endpoint'
 
-// const API_MASTER_LOCAL= 'http://192.168.1.11:8888/api/'
-const API_MASTER = process.env.REACT_APP_API_MASTER_CORE_AEONFANTASY_MEMBER
+const API_MASTER=  "https://jktbersinar.herokuapp.com/"
+// const API_MASTER = process.env.REACT_APP_API
 const API_MASTER_REPORT = process.env.REACT_APP_API_MASTER_REPORT
 
 const Config = {
   BUILD_FOR: 'CENTRAL',
   BUILD_VERSION: '0.2.0',
-  APPSCHEMA: process.env.REACT_APP_APPSCHEMA_AEONFANTASY,
+  APPSCHEMA: "KIDZOOONA",
 
   API_LOGIN: API_MASTER + endpoint.EP_LOGIN,
   API_FORGOT: API_MASTER + endpoint.EP_FORGOT,
@@ -549,6 +549,7 @@ const Config = {
 
   API_PROVINCE: endpoint.EP_PROVINCE,
   API_CITY: endpoint.EP_CITY,
+  API_DISTRICT: endpoint.EP_DISTRICT,
 
 }
 

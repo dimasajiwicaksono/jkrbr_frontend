@@ -4,6 +4,7 @@ const initialState = {
   loading: false,
   loadingProvince: false,
   loadingCity: false,
+  loadingKecamatan: false,
   loadingLayananMasyarakat:false,
   error: false,
   membershipData: [],
@@ -11,6 +12,7 @@ const initialState = {
   layananMasyarakatList: [],
   province: [],
   city: [],
+  district:[]
 }
 
 export default function userReducer(state = initialState, action) {

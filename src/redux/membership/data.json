@@ -35,8 +35,8 @@
           "link": "pencegahan"
         },
         {
-          "form": "Pencegahan",
-          "link": "pencegahan"
+          "form": "Logout",
+          "link": "logout"
         }
       ]
     }

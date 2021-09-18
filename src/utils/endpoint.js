@@ -52,6 +52,7 @@ const Endpoint = {
 
   EP_PROVINCE: 'http://www.emsifa.com/api-wilayah-indonesia/api/provinces.json',
   EP_CITY: 'http://www.emsifa.com/api-wilayah-indonesia/api/regencies',
+  EP_DISTRICT : "http://www.emsifa.com/api-wilayah-indonesia/api/districts"
 
 }
 

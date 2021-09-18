@@ -5,11 +5,13 @@ import {Icon, Spin, Form, Input, Button} from 'antd'
 import { Link } from 'react-router-dom'
 import styles from './style.module.scss'
 import SelectScap from '../../components/CleanUIComponents/Scap/SelectScap'
+// import actions from '../../redux/user/actions'
 
 const mapStateToProps = ({ user, membership }) => ({
   user,
   provinceOption: membership.province,
   cityOption: membership.city,
+  districtOption: membership.district,
   membership,
 })
 
@@ -19,10 +21,12 @@ class MembershipDetail extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      province: '',
-      city: '',
+      province: {id: "", name:""},
+      city: {id: "", name:""},
+      district: {id: "", name:""},
       year: '2021'
     }
+    this.initState = this.state
   }
 
   componentDidMount() {
@@ -33,19 +37,84 @@ class MembershipDetail extends Component {
     })
   }
 
+  onSubmit = e => {
+    e.preventDefault()
+    const { form, dispatch } = this.props
+    const { district, city, province} = this.state
+    form.validateFields((error, values) => {
+      if (!error) {
+
+        const payload = {
+          "provinsi_id":province.id,
+          "provinsi_name":province.name,
+          "kota_id":city.id,
+          "kota_name":city.name,
+          "kecamatan_id":district.id,
+          "kecamatan_name":district.name,
+          "tahun":values.year,
+          "qty_bandar":values.bandarNarkoba,
+          "qty_tersangka":values.jmlTersangka,
+          "qty_sabu":values.jmlShabu,
+          "qty_ganja":values.jmlGanja,
+          "qty_ekstasi":values.jmlEkstasi,
+          "qty_gorilla":values.jmlGorilla,
+          "qty_lainnya":values.jmlLainnya
+        }
+
+        console.log(payload)
+
+        dispatch({
+          type: 'membership/ADD_KASUS_NARKOBA',
+          payload
+        })
+        
+        form.resetFields()
+        this.setState(this.initState)
+      }
+    })
+  }
+
   handleChangeProvince = id => {
-    const { dispatch } = this.props
+    const { dispatch,provinceOption } = this.props
+    const province = provinceOption.find(el => el.id === id)
+    this.setState({
+      province
+    })
+
     dispatch({
       type: 'membership/GET_DATA_CITY_LIST',
       payload: {
-        id,
+        id:province.id
       },
     })
   }
 
+  handleChangeCity = id => {
+    const { dispatch,cityOption } = this.props
+    const city = cityOption.find(el => el.id === id)
+    this.setState({
+      city
+    })
+
+    dispatch({
+      type: 'membership/GET_DATA_KECAMATAN_LIST',
+      payload: {
+        id:city.id
+      },
+    })
+  }
+
+  handleChangeKecamatan = id => {
+    const {districtOption } = this.props
+    const district = districtOption.find(el => el.id === id)
+    this.setState({
+      district
+    })
+  }
+
   render() {
-    const {  province, city, year } = this.state
-    const { form, provinceOption, cityOption, membership } = this.props
+    const {  province, city, district, year } = this.state
+    const { form, provinceOption, cityOption, districtOption, membership } = this.props
 
     const optProvince = provinceOption.map(el => ({
       value: el.id,
@@ -53,6 +122,11 @@ class MembershipDetail extends Component {
     }))
 
     const optCity = cityOption.map(el => ({
+      value: el.id,
+      title: el.name,
+    }))
+
+    const optDistrict = districtOption.map(el => ({
       value: el.id,
       title: el.name,
     }))
@@ -90,14 +164,14 @@ class MembershipDetail extends Component {
                   <span style={{fontSize: '1.5em', margin: 10}}>Kasus Narkoba</span>
                 </Link>
                 <Spin spinning={false}>
-                  <Form>
+                  <Form onSubmit={this.onSubmit}>
                     <Form.Item
                       className="ant-form-item-custom mb-0"
                       {...formItemLayout}
                       label={<span style={{ fontSize: '1.15em', fontWeight: 'bold' }}>Provinsi</span>}
                     >
                       {form.getFieldDecorator('province', {
-                        initialValue: province,
+                        initialValue: province.id,
                         rules: [{ required: true, message: 'Please input City' }],
                       })(
                         <SelectScap
@@ -113,13 +187,13 @@ class MembershipDetail extends Component {
                       label={<span style={{ fontSize: '1.15em', fontWeight: 'bold' }}>Kota/Kab</span>}
                     >
                       {form.getFieldDecorator('city', {
-                        initialValue: city,
+                        initialValue: city.id,
                         rules: [{ required: true, message: 'Please input City' }],
                       })(
                         <SelectScap
                           loading={membership.loadingCity}
                           datas={optCity}
-                          onChange={e => this.setState({ city: e })}
+                          onChange={e => this.handleChangeCity(e)}
                         />,
                       )}
                     </Form.Item>
@@ -128,14 +202,14 @@ class MembershipDetail extends Component {
                       {...formItemLayout}
                       label={<span style={{ fontSize: '1.15em', fontWeight: 'bold' }}>Kecamatan</span>}
                     >
-                      {form.getFieldDecorator('city', {
-                        initialValue: city,
-                        rules: [{ required: true, message: 'Please input City' }],
+                      {form.getFieldDecorator('district', {
+                        initialValue: district.id,
+                        rules: [{ required: true, message: 'Please input Kecamatan' }],
                       })(
                         <SelectScap
-                          loading={membership.loadingCity}
-                          datas={optCity}
-                          onChange={e => this.setState({ city: e })}
+                          loading={membership.loadingKecamatan}
+                          datas={optDistrict}
+                          onChange={e => this.handleChangeKecamatan(e)}
                         />,
                       )}
                     </Form.Item>
@@ -238,24 +312,29 @@ class MembershipDetail extends Component {
                         <Input type='number' size='large' suffix='Gram/Butir' />
                       )}
                     </Form.Item>
+
+                    <div className='mt-4'>
+                      <Button
+                        htmlType="submit"
+                        block
+                        size='large'
+                        style={{backgroundColor: `#3a99ff`, color: 'white', borderRadius: 8, fontWeight: 'bold'}}
+                      >
+                        Simpan
+                      </Button>
+                      <Button
+                        block
+                        size='large'
+                        className='mt-4'
+                        style={{color: 'black', borderRadius: 8, fontWeight: 'bold'}}
+                      >
+                        Batal
+                      </Button>
+                    </div>
+
+
                   </Form>
-                  <div className='mt-4'>
-                    <Button
-                      block
-                      size='large'
-                      style={{backgroundColor: `#3a99ff`, color: 'white', borderRadius: 8, fontWeight: 'bold'}}
-                    >
-                      Simpan
-                    </Button>
-                    <Button
-                      block
-                      size='large'
-                      className='mt-4'
-                      style={{color: 'black', borderRadius: 8, fontWeight: 'bold'}}
-                    >
-                      Batal
-                    </Button>
-                  </div>
+
                 </Spin>
               </div>
 

@@ -6,35 +6,12 @@ import config from '../../utils/config'
 import { getHeader, getHeaderWoAuth } from '../../utils/master'
 import { /* dummyFetchRequest, */ notifConfig } from '../../utils/helper'
 
-async function GET_LOGIN(email, password) {
-  const data = {
-    email,
-    password,
-  }
-  // console.log(data)
-  // const response = {
-  //   acknowledge: 1,
-  //   message: 'SUKSES',
-  //   token:'1',
-  //   username:'DEVELOPER'
-  // }
-  //
-  // return dummyFetchRequest(response)
+async function GET_LOGIN(data) {
 
   return axios.post(config.API_LOGIN, data, { headers: getHeaderWoAuth() }).then(res => res.data)
 }
 
 async function GET_REGISTER(payload) {
-  // console.log(payload)
-  // const response = {
-  //   acknowledge: 1,
-  //   message: 'SUKSES',
-  //   token:'1',
-  //   username:'DEVELOPER'
-  // }
-  //
-  // return dummyFetchRequest(response)
-
   return axios.post(config.API_REGISTER, payload, { headers: getHeader() }).then(res => res.data)
 }
 
@@ -133,7 +110,6 @@ export function* GET_MST_COMPANY({ payload }) {
 }
 
 export function* LOGIN({ payload }) {
-  const { email, password } = payload
   yield put({
     type: actions.SET_STATE,
     payload: {
@@ -141,26 +117,24 @@ export function* LOGIN({ payload }) {
     },
   })
   try {
-    const result = yield call(GET_LOGIN, email, password)
+    const result = yield call(GET_LOGIN, payload)
     const { acknowledge, message } = result
     if (acknowledge === 1) {
       notification.success({
         message: 'Login Success',
-        description: `Welcome ${result.username}`,
+        description: `Welcome`,
         ...notifConfig,
       })
       /* Setting localStorage */
       localStorage.setItem('token', result.token)
-      localStorage.setItem('username', result.username)
       localStorage.setItem('authorized', true)
       yield put({
         type: actions.SET_STATE,
         payload: {
           loading: true,
           token: result.token,
-          username: result.username,
           // role: 'admin',
-          authorized: true,
+          authorized: result.authorized,
         },
       })
     } else {

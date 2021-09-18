@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { List,/* Divider,  */ Icon, Row, Col, Card, Spin /* notification */ , Carousel, Button} from 'antd'
+import { List,/* Divider,  */ Icon, Row, Col, Card, Spin, Carousel, Button} from 'antd'
 import { Link } from 'react-router-dom'
 import actions from '../../redux/user/actions'
 import styles from './style.module.scss'
@@ -57,6 +57,14 @@ class Membership extends Component {
         color = 'rgba(255,145,115,1)'
     }
     return color
+  }
+
+  logout = () => {
+    const {dispatch} = this.props
+    dispatch({
+      type:actions.LOGOUT,
+      payload:{}
+    })
   }
 
   render() {
@@ -179,7 +187,7 @@ class Membership extends Component {
                         <Icon type='home' style={{fontSize: '2em'}} />
                       </Col>
                       <Col span={6}>
-                        <Icon type='user' style={{fontSize: '2em'}} />
+                        <Icon type='user' style={{fontSize: '2em'}} onClick={this.logout} />
                       </Col>
                     </Row>
                   </Button>

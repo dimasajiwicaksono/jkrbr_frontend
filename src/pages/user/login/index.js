@@ -4,7 +4,7 @@ import { Form, Input, Icon, Row, Col, Button } from 'antd'
 import { Link } from 'react-router-dom'
 import styles from './style.module.scss'
 import login from '../../../assets/images/login.svg'
-import Logo from '../../../assets/images/kidzooonaLogo.png'
+import Logo from '../../../assets/images/bnn.png'
 import actions from '../../../redux/user/actions'
 import config from '../../../utils/config'
 
@@ -33,8 +33,8 @@ class Login extends Component {
         dispatch({
           type: actions.LOGIN,
           payload: {
-            email: values.email,
-            password: window.btoa(values.password),
+            username: values.username,
+            password: values.password,
           },
         })
       }
@@ -65,25 +65,20 @@ class Login extends Component {
 
                 <div className={`col-lg-6 col-md-12 ${styles.form}`}>
                   <Row className="d-flex align-items-center">
-                    <Col span={8}>
-                      <p className={styles.formTitle}>Welcome</p>
-                    </Col>
-                    <Col span={16} className="d-flex align-items-center justify-content-end">
+                    <Col span={24} className="d-flex align-items-center justify-content-center">
                       <img src={Logo} alt="Logo" className={styles.logo} />
                     </Col>
                   </Row>
-                  <p className={styles.desc}> Lets see your point that you have got</p>
                   <Form.Item className="ant-form-item-custom mt-3" {...formItemLayout}>
-                    {form.getFieldDecorator('email', {
+                    {form.getFieldDecorator('username', {
                       initialValue: '',
                       rules: [{ required: true, message: 'Please input your email' }],
                     })(
                       <Input
                         // value={username}
                         // onChange={e => this.hs('username', e.target.value)}
-                        type="email"
-                        prefix={<Icon type="mail" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                        placeholder="Email"
+                        prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                        placeholder="Username"
                         size="large"
                       />,
                     )}

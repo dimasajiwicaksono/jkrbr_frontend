@@ -1,12 +1,9 @@
 import { all, put, call, takeEvery } from 'redux-saga/effects'
 import axios from 'axios'
-// import { notification } from 'antd'
+import { Modal } from 'antd'
 import actions from './actions'
 import { dummyFetchRequest } from '../../utils/helper'
 import config from '../../utils/config'
-// import { getHeader } from '../../utils/master'
-// import { notifConfig } from '../../utils/helper'
-// import vars from '../../utils/variable'
 import { DATA, DATA_LAYANAN } from './data.json'
 
 function GET_API_DATA() {
@@ -21,6 +18,18 @@ function GET_API_DATA_LAYANAN_MASYARAKAT() {
   return dummyFetchRequest(DATA_LAYANAN, 600)
 }
 
+function ADD_API_KASUS_NARKOBA(payload) {
+  // return axios.get(config.API_DASHBOARD, { headers: getHeader() }).then(res => res.data)
+console.log(payload)
+
+  const res = {
+  acknowledge: 1,
+    message: 'TT'
+  }
+
+  return dummyFetchRequest(res, 600)
+}
+
 async function GET_API_PROVINCE_LIST() {
   const response = await axios.get(config.API_PROVINCE)
 
@@ -33,6 +42,16 @@ async function GET_API_PROVINCE_LIST() {
 
 async function GET_API_CITY_LIST({ id }) {
   const response = await axios.get(`${config.API_CITY}/${id}.json`)
+
+  return {
+    acknowledge: 1,
+    message: 'TRUE',
+    data: response.data,
+  }
+}
+
+async function GET_API_KECAMATAN_LIST({ id }) {
+  const response = await axios.get(`${config.API_DISTRICT}/${id}.json`)
 
   return {
     acknowledge: 1,
@@ -222,6 +241,50 @@ export function* GET_DATA_CITY_LIST({ payload }) {
     })
   }
 }
+export function* GET_DATA_KECAMATAN_LIST({ payload }) {
+  try {
+    yield put({
+      type: actions.SET_STATE,
+      payload: {
+        loadingKecamatan: true,
+      },
+    })
+    const result = yield call(GET_API_KECAMATAN_LIST, payload)
+    const { acknowledge, data } = result
+    if (acknowledge === 1) {
+      yield put({
+        type: actions.SET_STATE,
+        payload: {
+          district: data,
+          error: false,
+        },
+      })
+    } else {
+      yield put({
+        type: actions.SET_STATE,
+        payload: {
+          error: true,
+        },
+      })
+    }
+  } catch (e) {
+    console.log(e)
+    yield put({
+      type: actions.SET_STATE,
+      payload: {
+        error: true,
+      },
+    })
+  } finally {
+    yield put({
+      type: actions.SET_STATE,
+      payload: {
+        loadingKecamatan: false,
+      },
+    })
+  }
+}
+
 
 export function* GET_DATA_LAYANAN_MASYARAKAT_LIST() {
   try {
@@ -268,12 +331,65 @@ export function* GET_DATA_LAYANAN_MASYARAKAT_LIST() {
   }
 }
 
+export function* ADD_KASUS_NARKOBA({payload}) {
+  try {
+    yield put({
+      type: actions.SET_STATE,
+      payload: {
+        loading: true,
+      },
+    })
+    const result = yield call(ADD_API_KASUS_NARKOBA, payload)
+    const { message, acknowledge } = result
+    if (acknowledge === 1) {
+      console.log(message)
+      yield put({
+        type: actions.SET_STATE,
+        payload: {
+          error: false,
+          loading: false
+        },
+      })
+
+      Modal.success({
+        content: 'SUSKES CRETATE'
+      })
+
+    } else {
+      yield put({
+        type: actions.SET_STATE,
+        payload: {
+          error: true,
+        },
+      })
+    }
+  } catch (e) {
+    console.log(e)
+    yield put({
+      type: actions.SET_STATE,
+      payload: {
+        error: true,
+      },
+    })
+  } finally {
+    yield put({
+      type: actions.SET_STATE,
+      payload: {
+        loading: false,
+      },
+    })
+  }
+}
+
 export default function* rootSaga() {
   yield all([
     takeEvery(actions.GET_DATA_LIST, GET_DATA_LIST),
     takeEvery(actions.GET_DATA_DETAIL, GET_DATA_DETAIL),
     takeEvery(actions.GET_DATA_PROVINCE_LIST, GET_DATA_PROVINCE_LIST),
     takeEvery(actions.GET_DATA_CITY_LIST, GET_DATA_CITY_LIST),
+    takeEvery(actions.GET_DATA_KECAMATAN_LIST, GET_DATA_KECAMATAN_LIST),
     takeEvery(actions.GET_DATA_LAYANAN_MASYARAKAT_LIST, GET_DATA_LAYANAN_MASYARAKAT_LIST),
+
+    takeEvery(actions.ADD_KASUS_NARKOBA, ADD_KASUS_NARKOBA),
   ])
 }
