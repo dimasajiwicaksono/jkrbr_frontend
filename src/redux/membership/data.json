@@ -8,35 +8,39 @@
       "detail": [
         {
           "form": "Kasus Narkoba",
-          "link": "kasus_narkoba"
+          "link": "kasus_narkoba",
+          "icon": "experiment",
+          "color": "rgba(58, 153, 255, 0.1)"
         },
         {
           "form": "Rehabilitasi",
-          "link": "rehabilitasi"
+          "link": "rehabilitasi",
+          "icon": "medicine-box",
+          "color": "rgba(58, 153, 255, 0.1)"
         },
         {
           "form": "Pengaduan Masyarakat",
-          "link": "pengaduan_masyarakat"
+          "link": "pengaduan_masyarakat",
+          "icon": "message",
+          "color": "rgba(58, 153, 255, 0.1)"
         },
         {
           "form": "Layanan Masyarakat",
-          "link": "layanan_masyarakat"
+          "link": "layanan_masyarakat",
+          "icon": "customer-service",
+          "color": "rgba(58, 153, 255, 0.1)"
         },
         {
           "form": "Pemberdayaan",
-          "link": "pemberdayaan"
+          "link": "pemberdayaan",
+          "icon": "solution",
+          "color": "rgba(58, 153, 255, 0.1)"
         },
         {
           "form": "Pencegahan",
-          "link": "pencegahan"
-        },
-        {
-          "form": "Pencegahan",
-          "link": "pencegahan"
-        },
-        {
-          "form": "Logout",
-          "link": "logout"
+          "link": "pencegahan",
+          "icon": "safety",
+          "color": "rgba(58, 153, 255, 0.1)"
         }
       ]
     }

@@ -13,6 +13,9 @@ import setInvOpeningBalance from './setup/setInvOpeningBalance/sagas'
 import setInvOpeningCOA from './setup/setInvOpeningCOA/sagas'
 import membership from './membership/sagas'
 
+import pencegahan from './pencegahan/sagas'
+import pemberdayaan from './pemberdayaan/sagas'
+
 export default function* rootSaga() {
   yield all([
     user(),
@@ -23,6 +26,9 @@ export default function* rootSaga() {
     posKasir(),
     posReport(),
     membership(),
+
+    pencegahan(),
+    pemberdayaan(),
     setInvOpeningBalance(),
     setInvOpeningCOA(),
   ])

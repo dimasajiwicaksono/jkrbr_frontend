@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import {Icon, Spin, Form, Input, Button} from 'antd'
+import {Icon, Spin, Form, Input, Button,DatePicker} from 'antd'
+import * as moment from 'moment'
 // import actions from '../../redux/user/actions'
 import { Link } from 'react-router-dom'
 import styles from './style.module.scss'
@@ -11,10 +12,46 @@ const mapStateToProps = ({ user, membership }) => ({
 })
 
 @connect(mapStateToProps)
-class Pemberdayaan extends Component {
+class Pencegahan extends Component {
+
+  componentDidMount() {
+    const { dispatch } = this.props
+    dispatch({
+      type: 'membership/GET_DATA_LIST',
+      payload: {},
+    })
+  }
+
+  onSubmit = e => {
+    e.preventDefault()
+    const { form, dispatch } = this.props
+    form.validateFields((error, values) => {
+      if (!error) {
+        const payload = {
+          "nama_kegiatan":values.nama_kegiatan,
+          "date":moment(values.date).format("YYYY-MM-DD"),
+          "tempat_pelaksanaan":values.tempat_pelaksanaan,
+          "jumlah_peserta":values.jumlah_peserta,
+          "tujuan":values.tujuan,
+          "img":values.img
+        }
+
+        // console.log(payload)
+
+        dispatch({
+          type: 'pencegahan/ADD_PENCEGAHAN',
+          payload
+        })
+
+        form.resetFields()
+      }
+    })
+  }
+
+
 
   render() {
-  const { form} = this.props
+    const { form} = this.props
 
     const formItemLayout = {
       labelCol: {
@@ -35,17 +72,15 @@ class Pemberdayaan extends Component {
                   <span style={{fontSize: '1.5em', margin: 10}}>Pencegahan</span>
                 </Link>
                 <Spin spinning={false}>
-                  <Form>
-
-
+                  <Form onSubmit={this.onSubmit}>
                     <Form.Item
                       className="ant-form-item-custom mb-0"
                       {...formItemLayout}
                       label={<span style={{ fontSize: '1.15em', fontWeight: 'bold' }}>Nama Kegiatan</span>}
                     >
-                      {form.getFieldDecorator('namaKegiatan', {
+                      {form.getFieldDecorator('nama_kegiatan', {
                         initialValue: '',
-                        rules: [{ required: true, message: 'Please input City' }],
+                        rules: [{ required: true, message: 'Mohon Isi Nama Kegiatan' }],
                       })(
                         <Input />,
                       )}
@@ -57,19 +92,19 @@ class Pemberdayaan extends Component {
                     >
                       {form.getFieldDecorator('date', {
                         initialValue: '',
-                        rules: [{ required: false, message: 'Please input City' }],
+                        rules: [{ required: false, message: 'Mohon Isi Tanggal' }],
                       })(
-                        <Input type='date' size='large' />
+                        <DatePicker size='large' />
                       )}
                     </Form.Item>
                     <Form.Item
                       className="ant-form-item-custom mb-0"
                       {...formItemLayout}
-                      label={<span style={{ fontSize: '1.15em', fontWeight: 'bold' }}>Tempat Pelaksanaa</span>}
+                      label={<span style={{ fontSize: '1.15em', fontWeight: 'bold' }}>Tempat Pelaksanaan</span>}
                     >
-                      {form.getFieldDecorator('tempatPenyelenggaraan', {
-                        initialValue: 0,
-                        rules: [{ required: false, message: 'Please input City' }],
+                      {form.getFieldDecorator('tempat_pelaksanaan', {
+                        initialValue: '',
+                        rules: [{ required: false, message: 'Mohon Isi Tempat Pelaksanaan' }],
                       })(
                         <Input size='large' />
                       )}
@@ -79,9 +114,9 @@ class Pemberdayaan extends Component {
                       {...formItemLayout}
                       label={<span style={{ fontSize: '1.15em', fontWeight: 'bold' }}>Jumlah Peserta</span>}
                     >
-                      {form.getFieldDecorator('jmlShabu', {
+                      {form.getFieldDecorator('jumlah_peserta', {
                         initialValue: 0,
-                        rules: [{ required: false, message: 'Please input City' }],
+                        rules: [{ required: false, message: 'Mohon Isi  Jumlah Peserta' }],
                       })(
                         <Input type='number' size='large' suffix='Orang' />
                       )}
@@ -91,9 +126,9 @@ class Pemberdayaan extends Component {
                       {...formItemLayout}
                       label={<span style={{ fontSize: '1.15em', fontWeight: 'bold' }}>Tujuan/Manfaat</span>}
                     >
-                      {form.getFieldDecorator('jmlGanja', {
+                      {form.getFieldDecorator('tujuan', {
                         initialValue: 0,
-                        rules: [{ required: false, message: 'Please input City' }],
+                        rules: [{ required: false, message: 'Mohon Isi Tujuan/Manfaat' }],
                       })(
                         <Input.TextArea size='large' />
                       )}
@@ -103,29 +138,34 @@ class Pemberdayaan extends Component {
                       {...formItemLayout}
                       label={<span style={{ fontSize: '1.15em', fontWeight: 'bold' }}>Foto Kegiatan</span>}
                     >
-                      {form.getFieldDecorator('jmlGanja', {
-                        initialValue: 0,
-                        rules: [{ required: false, message: 'Please input City' }],
+                      {form.getFieldDecorator('img', {
+                        initialValue: "",
+                        rules: [{ required: false, message: 'Mohon Isi Foto Kegiatan' }],
                       })(
-                        <Input.TextArea size='large' />
+                        <Input type='file' size='large' />
                       )}
                     </Form.Item>
+
                     <div className='mt-4'>
                       <Button
+                        htmlType="submit"
                         block
                         size='large'
                         style={{backgroundColor: `#3a99ff`, color: 'white', borderRadius: 8, fontWeight: 'bold'}}
                       >
                         Simpan
                       </Button>
-                      <Button
-                        block
-                        size='large'
-                        className='mt-4'
-                        style={{color: 'black', borderRadius: 8, fontWeight: 'bold'}}
-                      >
-                        Batal
-                      </Button>
+                      <Link to="/membership">
+                        <Button
+                          block
+                          size='large'
+                          className='mt-4'
+                          style={{color: 'black', borderRadius: 8, fontWeight: 'bold'}}
+                        >
+                          Batal
+                        </Button>
+                      </Link>
+
                     </div>
                   </Form>
                 </Spin>
@@ -139,4 +179,4 @@ class Pemberdayaan extends Component {
   }
 }
 
-export default Form.create()(Pemberdayaan)
+export default Form.create()(Pencegahan)

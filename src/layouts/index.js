@@ -140,7 +140,7 @@ class IndexLayout extends React.PureComponent {
 
     return (
       <Fragment>
-        <Helmet titleTemplate="SCAP Solution" title="" />
+        <Helmet titleTemplate="Jakarta Bersinar" title="" />
         {BootstrappedLayout()}
       </Fragment>
     )

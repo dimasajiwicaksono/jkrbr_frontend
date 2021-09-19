@@ -4,6 +4,7 @@ import { List,/* Divider,  */ Icon, Row, Col, Card, Spin, Carousel, Button} from
 import { Link } from 'react-router-dom'
 import actions from '../../redux/user/actions'
 import styles from './style.module.scss'
+import logo from '../../assets/images/logo.svg'
 
 
 const mapStateToProps = ({ user, membership }) => ({
@@ -51,10 +52,10 @@ class Membership extends Component {
         color = 'rgba(255,145,115,1)'
         break
       case '1':
-        color = 'rgba(86,140,165,1)'
+        color = "rgba(58, 153, 255, 1)"
         break
       default:
-        color = 'rgba(255,145,115,1)'
+        color = "rgba(58, 153, 255, 1)"
     }
     return color
   }
@@ -72,7 +73,7 @@ class Membership extends Component {
     const DATA = membershipData.map(el => ({
       ...el,
       isAdd: false,
-      color: this.getColor(el.status),
+      // color: this.getColor(el.status),
       colorText: this.getColorText(el.status),
     }))
 
@@ -84,12 +85,23 @@ class Membership extends Component {
           <div className={styles.child}>
             <div className={`${styles.cardLogin}`}>
               <div className="p-4 m-0">
+                <Row style={{height: '8vh'}}>
+                  <Col span={12}>
+                    <img src={logo} alt='logo' style={{width: '100%' }} />
+                  </Col>
+                  <Col span={12} className="d-flex align-items-center justify-content-end">
+                    <Icon type="customer-service" style={{fontSize: '2em'}} />
+                  </Col>
+                </Row>
+
+
                 <Spin spinning={membership.loading}>
                   <Carousel
                     style={{
                       backgroundColor: `#3a99ff`,
-                      height:'20vh'
-
+                      height:'20vh',
+                      borderRadius: 12,
+                      marginBottom: '2vh'
                     }}
                   >
                     <div>
@@ -101,19 +113,16 @@ class Membership extends Component {
                     <div>
                       <h3>3</h3>
                     </div>
-                    <div>
-                      <h3>4</h3>
-                    </div>
-                  </Carousel>,
+                  </Carousel>
                   <List
                     grid={{
-                      gutter: 16,
-                      xs: 2,
-                      sm: 2,
-                      md: 2,
-                      lg: 2,
-                      xl: 2,
-                      xxl: 2,
+                      gutter: 8,
+                      xs: 3,
+                      sm: 3,
+                      md: 3,
+                      lg: 3,
+                      xl: 3,
+                      xxl: 3,
                     }}
                     dataSource={resultData}
                     renderItem={el => (
@@ -126,14 +135,14 @@ class Membership extends Component {
                               style={{
                                 borderRadius: 20,
                                 border: 'none',
-                                height: '18vh',
+                                height: '15vh',
                                 backgroundColor: el.color,
                               }}
                             >
                               <Row>
                                 <Col span={24} className='text-center'>
-                                  <span style={{ padding: '0.75rem'}}>
-                                    <Icon type='home' style={{fontSize: 25}} />
+                                  <span style={{ padding: '0.5rem'}}>
+                                    <Icon type={el.icon} style={{fontSize: '2em', color:el.colorText}} />
                                   </span>
                                 </Col>
                               </Row>
@@ -150,7 +159,7 @@ class Membership extends Component {
 
                                 <Row gutter={8}>
                                   <Col span={24}>
-                                    <h5 className='text-center'>{el.form}</h5>
+                                    <h5 className='text-center' style={{color: el.colorText, fontSize: '0.8em'}}>{el.form}</h5>
                                   </Col>
                                 </Row>
 
@@ -173,21 +182,54 @@ class Membership extends Component {
                       borderRadius: 12,
                       backgroundColor:  'white',
                       outline: "none",
-                      borderColor: 'white'
+                      borderColor: 'white',
                     }}
                   >
                     <Row gutter={8}>
-                      <Col span={6}>
-                        <Icon type='home' style={{fontSize: '2em'}} />
+                      <Col span={5}>
+                        <Button style={{border: 'none'}} type='circle'>
+                          <Icon type='home' style={{fontSize: '1.5em'}} />
+                          <p>Beranda</p>
+                        </Button>
                       </Col>
-                      <Col span={6}>
-                        <Icon type='home' style={{fontSize: '2em'}} />
+                      <Col span={5}>
+                        <Button style={{border: 'none'}} type='circle'>
+                          <Icon type='user' style={{fontSize: '1.5em'}} />
+                          <p>Aktivitas</p>
+                        </Button>
                       </Col>
-                      <Col span={6}>
-                        <Icon type='home' style={{fontSize: '2em'}} />
+                      <Col span={4}>
+                        <Link to='membership/lapor'>
+                          <Button
+                            style={{
+                              border: 'none',
+                              bottom: '5vh',
+                              width: 50,
+                              height: 50,
+                              zIndex: 2,
+                              left: 0,
+                              right: 0,
+                              backgroundColor: "rgba(58,153,255,0.8)"
+                            }}
+                            type='circle'
+                          >
+                            <Icon type='camera' style={{fontSize: '1.5em', color: 'white'}} />
+                          </Button>
+                        </Link>
+
                       </Col>
-                      <Col span={6}>
-                        <Icon type='user' style={{fontSize: '2em'}} onClick={this.logout} />
+                      <Col span={5}>
+                        <Button style={{border: 'none'}} type='circle'>
+                          <Icon type='bell' style={{fontSize: '1.5em'}} />
+                          <p>Notifikasi</p>
+                        </Button>
+                      </Col>
+                      <Col span={5}>
+                        <Button style={{border: 'none'}} type='circle' onClick={this.logout}>
+                          <Icon type='logout' style={{fontSize: '1.5em'}} />
+                          <p>Keluar</p>
+                        </Button>
+
                       </Col>
                     </Row>
                   </Button>

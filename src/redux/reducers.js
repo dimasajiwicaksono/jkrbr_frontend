@@ -16,6 +16,10 @@ import setInvOpeningCOA from './setup/setInvOpeningCOA/reducers'
 import toolVoucher from './tool/voucher/reducers'
 import membership from './membership/reducers'
 
+// TTTT
+import pencegahan from './pencegahan/reducers'
+import pemberdayaan from './pemberdayaan/reducers'
+
 export default history =>
   combineReducers({
     router: connectRouter(history),
@@ -24,6 +28,9 @@ export default history =>
     settings,
     dashboard,
     membership,
+
+    pencegahan,
+    pemberdayaan,
 
     posPointOfSales,
     posKasir,

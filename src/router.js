@@ -57,6 +57,11 @@ const routes = [
     exact: true,
   },
   {
+    path: '/membership/lapor',
+    component: loadable(() => import('pages/lapor')),
+    exact: true,
+  },
+  {
     path: '/membership/layanan_masyarakat',
     component: loadable(() => import('pages/layanan_masyarakat')),
     exact: true,

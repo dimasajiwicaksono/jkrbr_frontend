@@ -7,6 +7,15 @@ import { getHeader, getHeaderWoAuth } from '../../utils/master'
 import { /* dummyFetchRequest, */ notifConfig } from '../../utils/helper'
 
 async function GET_LOGIN(data) {
+// console.log(data)
+//   const res = {
+//     acknowledge: 1,
+//     token:"",
+//     authorized: true
+//   }
+//
+//   return dummyFetchRequest(res, 300)
+
 
   return axios.post(config.API_LOGIN, data, { headers: getHeaderWoAuth() }).then(res => res.data)
 }
@@ -127,6 +136,7 @@ export function* LOGIN({ payload }) {
       })
       /* Setting localStorage */
       localStorage.setItem('token', result.token)
+      localStorage.setItem('tokenRajaAPI', result.tokenRajaAPI)
       localStorage.setItem('authorized', true)
       yield put({
         type: actions.SET_STATE,
@@ -135,6 +145,7 @@ export function* LOGIN({ payload }) {
           token: result.token,
           // role: 'admin',
           authorized: result.authorized,
+          tokenRajaAPI:result.tokenRajaAPI,
         },
       })
     } else {

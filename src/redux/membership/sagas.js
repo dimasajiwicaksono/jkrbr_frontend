@@ -3,8 +3,8 @@ import axios from 'axios'
 import { Modal } from 'antd'
 import actions from './actions'
 import { dummyFetchRequest } from '../../utils/helper'
-import config from '../../utils/config'
 import { DATA, DATA_LAYANAN } from './data.json'
+import config from '../../utils/config'
 
 function GET_API_DATA() {
   // return axios.get(config.API_DASHBOARD, { headers: getHeader() }).then(res => res.data)
@@ -19,44 +19,46 @@ function GET_API_DATA_LAYANAN_MASYARAKAT() {
 }
 
 function ADD_API_KASUS_NARKOBA(payload) {
-  // return axios.get(config.API_DASHBOARD, { headers: getHeader() }).then(res => res.data)
-console.log(payload)
-
-  const res = {
-  acknowledge: 1,
-    message: 'TT'
-  }
-
-  return dummyFetchRequest(res, 600)
+  return axios.post(config.API_KASUS_NARKOBA_SAVE, payload).then(res => res.data)
+// console.log(payload)
+//
+//   const res = {
+//   acknowledge: 1,
+//     message: 'TT'
+//   }
+//
+//   return dummyFetchRequest(res, 600)
 }
 
-async function GET_API_PROVINCE_LIST() {
-  const response = await axios.get(config.API_PROVINCE)
+async function GET_API_PROVINCE_LIST(token) {
+  const response = await axios.get(`https://x.rajaapi.com/MeP7c5ne${token}/m/wilayah/provinsi`)
 
   return {
     acknowledge: 1,
     message: 'TRUE',
-    data: response.data,
+    data: response.data.code === 200 ? response.data.data : []
   }
 }
 
-async function GET_API_CITY_LIST({ id }) {
-  const response = await axios.get(`${config.API_CITY}/${id}.json`)
+async function GET_API_CITY_LIST({token, id}) {
+  const response = await axios.get(`https://x.rajaapi.com/MeP7c5ne${token}/m/wilayah/kabupaten?idpropinsi=${id}`)
+
 
   return {
     acknowledge: 1,
     message: 'TRUE',
-    data: response.data,
+    data:  response.data.code === 200 ? response.data.data : []
   }
 }
 
-async function GET_API_KECAMATAN_LIST({ id }) {
-  const response = await axios.get(`${config.API_DISTRICT}/${id}.json`)
+async function GET_API_KECAMATAN_LIST({ token, id }) {
+  const response = await axios.get(`https://x.rajaapi.com/MeP7c5ne${token}/m/wilayah/kecamatan?idkabupaten=${id}`)
+
 
   return {
     acknowledge: 1,
     message: 'TRUE',
-    data: response.data,
+    data:  response.data.code === 200 ? response.data.data : []
   }
 }
 
@@ -152,7 +154,7 @@ export function* GET_DATA_DETAIL({ payload }) {
   }
 }
 
-export function* GET_DATA_PROVINCE_LIST() {
+export function* GET_DATA_PROVINCE_LIST({token}) {
   try {
     yield put({
       type: actions.SET_STATE,
@@ -160,9 +162,9 @@ export function* GET_DATA_PROVINCE_LIST() {
         loadingProvince: true,
       },
     })
-    const result = yield call(GET_API_PROVINCE_LIST)
+    const result = yield call(GET_API_PROVINCE_LIST, token)
     const { message, acknowledge, data } = result
-    console.log(result)
+    console.log("result", result)
     if (acknowledge === 1) {
       console.log(message)
       console.log(data)

@@ -11,6 +11,7 @@ const initialState = {
   token,
   username: '',
   authorized: false,
+  tokenRajaAPI:"",
   loading: false,
   loadingCheckToken: false,
   loadingChgPwd: false,

@@ -12,6 +12,7 @@ const mapStateToProps = ({ user, membership }) => ({
   provinceOption: membership.province,
   cityOption: membership.city,
   districtOption: membership.district,
+  token: user.tokenRajaAPI || '',
   membership,
 })
 
@@ -30,10 +31,11 @@ class MembershipDetail extends Component {
   }
 
   componentDidMount() {
-    const { dispatch} = this.props
+    const { dispatch, token} = this.props
+
     dispatch({
       type: 'membership/GET_DATA_PROVINCE_LIST',
-      payload: {},
+      token: token === "" ? localStorage.getItem('tokenRajaAPI') : token
     })
   }
 
@@ -61,13 +63,13 @@ class MembershipDetail extends Component {
           "qty_lainnya":values.jmlLainnya
         }
 
-        console.log(payload)
+        // console.log(payload)
 
         dispatch({
           type: 'membership/ADD_KASUS_NARKOBA',
           payload
         })
-        
+
         form.resetFields()
         this.setState(this.initState)
       }
@@ -75,7 +77,7 @@ class MembershipDetail extends Component {
   }
 
   handleChangeProvince = id => {
-    const { dispatch,provinceOption } = this.props
+    const { dispatch,provinceOption, token } = this.props
     const province = provinceOption.find(el => el.id === id)
     this.setState({
       province
@@ -84,13 +86,14 @@ class MembershipDetail extends Component {
     dispatch({
       type: 'membership/GET_DATA_CITY_LIST',
       payload: {
-        id:province.id
+        id:province.id,
+        token: token === "" ? localStorage.getItem('tokenRajaAPI') : token
       },
     })
   }
 
   handleChangeCity = id => {
-    const { dispatch,cityOption } = this.props
+    const { dispatch,cityOption, token } = this.props
     const city = cityOption.find(el => el.id === id)
     this.setState({
       city
@@ -99,7 +102,8 @@ class MembershipDetail extends Component {
     dispatch({
       type: 'membership/GET_DATA_KECAMATAN_LIST',
       payload: {
-        id:city.id
+        id:city.id,
+        token: token === "" ? localStorage.getItem('tokenRajaAPI') : token
       },
     })
   }
@@ -116,17 +120,17 @@ class MembershipDetail extends Component {
     const {  province, city, district, year } = this.state
     const { form, provinceOption, cityOption, districtOption, membership } = this.props
 
-    const optProvince = provinceOption.map(el => ({
+    const optProvince = (provinceOption || []).map(el => ({
       value: el.id,
       title: el.name,
     }))
 
-    const optCity = cityOption.map(el => ({
+    const optCity = (cityOption || []).map(el => ({
       value: el.id,
       title: el.name,
     }))
 
-    const optDistrict = districtOption.map(el => ({
+    const optDistrict = (districtOption || []).map(el => ({
       value: el.id,
       title: el.name,
     }))
@@ -322,14 +326,16 @@ class MembershipDetail extends Component {
                       >
                         Simpan
                       </Button>
-                      <Button
-                        block
-                        size='large'
-                        className='mt-4'
-                        style={{color: 'black', borderRadius: 8, fontWeight: 'bold'}}
-                      >
-                        Batal
-                      </Button>
+                      <Link to="/membership">
+                        <Button
+                          block
+                          size='large'
+                          className='mt-4'
+                          style={{color: 'black', borderRadius: 8, fontWeight: 'bold'}}
+                        >
+                          Batal
+                        </Button>
+                      </Link>
                     </div>
 
 
